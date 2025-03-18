@@ -1,0 +1,29 @@
+{
+  "name": "full-backend-zero",
+  "version": "1.0.0",
+  "description": "fullstack backend zero",
+  "keywords": [
+    "backend",
+    "fullstack",
+    "nodejs"
+  ],
+  "homepage": "https://github.com/0868524705/fullstack-backend#readme",
+  "bugs": {
+    "url": "https://github.com/0868524705/fullstack-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0868524705/fullstack-backend.git"
+  },
+  "license": "ISC",
+  "author": "phuongnguyen",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
