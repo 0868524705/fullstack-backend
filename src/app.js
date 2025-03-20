@@ -1,22 +1,16 @@
-const express = require('express') // common js
-const path = require('path') // common js
-require('dotenv').config() //config env
-const app = express() // app express
+const express = require('express'); // common js
+const configViewEngine = require('./config/viewEngine'); // common js
+require('dotenv').config(); //config env
+const app = express(); // app express
+const route = require("./routes/web"); // routes
 const port = process.env.PORT || 3333; // port
 const hostname = process.env.HOSTNAME; // hostname
 
 // config template engine
-app.set('views', path.join(__dirname,'views/'))
-app.set('view engine', 'ejs')
-// config static files
-app.use(express.static(path.join(__dirname, "public")));
-// routes
-app.get('/', (req, res) => {
-  // res.send('Hello World!')
-  res.render('example.ejs')
-})
-
+configViewEngine(app);
+// routes init
+app.use('/admin',route);
 // run app
-app.listen(port, () => {
+app.listen(port,hostname, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});
