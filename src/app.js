@@ -1,10 +1,12 @@
 const express = require('express') // common js
-const path = require('path')
+const path = require('path') // common js
+require('dotenv').config() //config env
 const app = express() // app express
-const port = 3000 // port
+const port = process.env.PORT || 3333; // port
+const hostname = process.env.HOSTNAME; // hostname
 
 // config template engine
-app.set('views', path.join(__dirname,'./views/'))
+app.set('views', path.join(__dirname,'views/'))
 app.set('view engine', 'ejs')
 
 // routes
