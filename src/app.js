@@ -5,18 +5,11 @@ const app = express(); // app express
 const route = require("./routes/web"); // routes
 const port = process.env.PORT || 3333; // port
 const hostname = process.env.HOSTNAME; // hostname
-// database
-const mysql = require('mysql2');
+const connection = require('./config/database');
 
 // Create the connection to database
 
-    const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-  });
+
 
 
 
