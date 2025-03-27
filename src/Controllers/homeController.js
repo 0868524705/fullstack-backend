@@ -1,22 +1,27 @@
 const connection = require('../config/database');
 
 const getHomaPage = (req, res) => {
-    // A simple SELECT query
-    // connection.query(
-    //     'SELECT * from Users u',
-    //     function(err, results, fields) {
-    //       console.log(">>>results= ", results); // results contains rows returned by server
-    //       console.log(">>>fields= ", fields); // fields contains extra meta data about results, if available
-    //     }
-    //   );
+
     res.render('home.ejs')
 }
 
-const getTestPage = (req, res) => {
-    res.render('example.ejs')
+  async function addUser (req, res)  {
+    let {email, name,city} = req.body;
+    try {
+        await connection.query(
+          `INSERT INTO Users (email,name,city)
+            VALUES (?, ?, ?);`,
+          [email, name, city]
+        );
+        console.log('thêm thành công');
+      } catch (err) {
+        console.log('>>>err= ',err);
+      }
+    
+    res.send('create user success')
 }
 
 module.exports = {
     getHomaPage
-    , getTestPage
+    , addUser
 }
