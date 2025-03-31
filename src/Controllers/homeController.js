@@ -1,10 +1,11 @@
 const connection = require('../config/database');
-
 const getHomaPage = (req, res) => {
 
     res.render('home.ejs')
 }
-
+const viewAddUser = (req, res) => {
+    res.render('addUser.ejs')
+}
   async function addUser (req, res)  {
     let {email, name,city} = req.body;
     try {
@@ -23,5 +24,6 @@ const getHomaPage = (req, res) => {
 
 module.exports = {
     getHomaPage
-    , addUser
+    , addUser,
+    viewAddUser,
 }

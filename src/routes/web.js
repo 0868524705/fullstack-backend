@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {getHomaPage, addUser} = require('../Controllers/homeController');
+const {getHomaPage, addUser,viewAddUser} = require('../Controllers/homeController');
 
 router.get('/', getHomaPage);
+router.get('/add', viewAddUser);
 router.post('/add', addUser);
 
   
