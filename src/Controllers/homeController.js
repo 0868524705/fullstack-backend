@@ -6,15 +6,16 @@ const getHomaPage = (req, res) => {
 const viewAddUser = (req, res) => {
     res.render('addUser.ejs')
 }
-  async function addUser (req, res)  {
+  const addUser = async (req, res) => {
     let {email, name,city} = req.body;
     try {
-        await connection.query(
+        const [results,fields] = await connection.query(
           `INSERT INTO Users (email,name,city)
             VALUES (?, ?, ?);`,
           [email, name, city]
         );
-        console.log('thêm thành công');
+        
+        console.log(">>>checkUser: ",results);
       } catch (err) {
         console.log('>>>err= ',err);
       }
