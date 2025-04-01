@@ -105,8 +105,8 @@
               <td><%= person.name %></td>
               <td><%= person.city %></td>
               <td>
-                <button class="btn btn-primary btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
+                <a href="/edit/<%= person.id %>"  class="btn btn-primary btn-sm">Edit</a >
+                <a href="/delete/<%= person._id %>"  class="btn btn-danger btn-sm">Delete</a >
               </td>
             </tr>
             <% }); %>
