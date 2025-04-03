@@ -34,7 +34,7 @@ const updateUser = async (req, res) => {
   let { email, name, city } = req.body;
   let id = req.params.id;
   try {
-    let updateUser = await userService.updateUserToDatabase(id, email, name, city);
+    await userService.updateUserToDatabase(id, email, name, city);
     res.redirect("/"); // Redirect to the homepage after updating the user
   } catch (err) {
     console.log("Error updating user: ", err);
@@ -42,9 +42,20 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+
+    const affectedRows = await userService.deleteUserToDatabase(req.params.id);
+  if (affectedRows == 0) {
+    res.status(404).send("User not found ",req.params.id);
+  }else {
+    res.redirect("/"); // Redirect to the homepage after deleting the user
+  }
+  
+}
+
 
 module.exports = {
   getHomaPage,
   addUser,
-  viewAddUser,viewEditUser,updateUser
+  viewAddUser,viewEditUser,updateUser,deleteUser
 };
