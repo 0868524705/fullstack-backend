@@ -1,56 +1,50 @@
 const connection = require("../config/database");
-const crudService = require("../services/CRUDService");
+const userService = require("../services/CRUDService");
+// getAll data from Users table
 const getHomaPage = async (req, res) => {
-  let results = await crudService.getAllUsers(req, res);
+  let results = await userService.getAllUsers(req, res);
   res.render("home.ejs", { listUsers: results });
 };
+// move to addUser.ejs
 const viewAddUser = (req, res) => {
   res.render("addUser.ejs");
 };
 
+// add user to Users table
 const addUser = async (req, res) => {
   let { email, name, city } = req.body;
   try {
-    const [results, fields] = await connection.query(
-      `INSERT INTO Users (email,name,city)
-            VALUES (?, ?, ?);`,
-      [email, name, city]
-    );
-
-    console.log(">>>checkUser: ", results);
+    let newUser = await userService.addUserToDatabase(email, name, city);
+    res.redirect("/"); // Redirect to the homepage after adding the user
   } catch (err) {
-    console.log(">>>err= ", err);
+    console.log("Error adding user: ", err);
+    res.status(500).send("An error occurred while adding the user.");
   }
-
-  res.send("create user success");
 };
 
-
+// move to editUser.ejs and get data from a user == id
 const viewEditUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    console.log(">>> Check User ID: ", id);
-
-    // Truy vấn dữ liệu user theo ID (dùng promise để tránh lỗi)
-    const [result] = await connection.promise().query(`SELECT * FROM Users WHERE id = ?`, [id]);
-
-    if (result.length === 0) {
-      return res.status(404).send("User not found");
-    }
-
-    // Render trang editUser và truyền dữ liệu user vào
-    res.render("editUser.ejs", { person: result[0] });
-
-  } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu người dùng:", error);
-    res.status(500).send("Lỗi server");
-  }
+    const  userid  = req.params.id;
+    let user = await userService.getUserById(userid);
+    res.render("editUser.ejs",{user : user});
 };
 
+// update user to Users table
+const updateUser = async (req, res) => {
+  let { email, name, city } = req.body;
+  let id = req.params.id;
+  try {
+    let updateUser = await userService.updateUserToDatabase(id, email, name, city);
+    res.redirect("/"); // Redirect to the homepage after updating the user
+  } catch (err) {
+    console.log("Error updating user: ", err);
+    res.status(500).send("An error occurred while updating the user.");
+  }
+};
 
 
 module.exports = {
   getHomaPage,
   addUser,
-  viewAddUser,viewEditUser
+  viewAddUser,viewEditUser,updateUser
 };
