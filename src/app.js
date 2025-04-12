@@ -5,10 +5,14 @@ const app = express(); // app express
 const route = require("./routes/web"); // routes
 const port = process.env.PORT || 3333; // port
 const hostname = process.env.HOSTNAME; // hostname
+const connection = require('./config/database'); // database
 
 // config req.body
 app.use(express.json()); // Used to parse JSON bodies
-app.use(express.urlencoded()); //Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true })); // Cho form HTML
+
+// test database
+connection();
 
 // config template engine
 configViewEngine(app);
