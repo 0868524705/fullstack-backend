@@ -18,11 +18,12 @@ const getUserById = async (userid) => {
 // add user to Users table
 const addUserToDatabase = async (email, name, city) => {
   try {
-    const [results, fields] = await connection.query(
-      `INSERT INTO Users (email,name,city)
-            VALUES (?, ?, ?);`,
-      [email, name, city]
+    await connection.query(
+      `INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
+      [newUser.email, newUser.name, newUser.city]
     );
+    return newUser; // Return the new user object
+    res.send("ok");
   } catch (err) {
     throw new Error(">>>err= " + err);
   }
