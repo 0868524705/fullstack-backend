@@ -1,9 +1,16 @@
 const connection = require("../config/database");
 const userService = require("../services/CRUDService");
+const User = require("../models/user"); // model user
 // getAll data from Users table
 const getHomaPage = async (req, res) => {
-  let results = await userService.getAllUsers(req, res);
-  res.render("home.ejs", { listUsers: results });
+  try {
+    const users = await User.find();
+    console.log(users);
+    res.render("home.ejs", { listUsers: users });
+  } catch (err) {
+    console.error('Error:', err);
+  }
+
 };
 // move to addUser.ejs
 const viewAddUser = (req, res) => {
@@ -14,7 +21,11 @@ const viewAddUser = (req, res) => {
 const addUser = async (req, res) => {
   let { email, name, city } = req.body;
   try {
-    let newUser = await userService.addUserToDatabase(email, name, city);
+    await User.create({
+      email: email,
+      name: name,
+      city: city,
+    });
     res.redirect("/"); // Redirect to the homepage after adding the user
   } catch (err) {
     console.log("Error adding user: ", err);
