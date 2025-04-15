@@ -35,7 +35,7 @@ const addUser = async (req, res) => {
 
 // move to editUser.ejs and get data from a user == id
 const viewEditUser = async (req, res) => {
-    const  userid  = await User.findById(req.params.id);
+    const  userid  = await User.findById(req.params.id).exec();
     res.render("editUser.ejs",{user : userid});
 };
 
@@ -59,7 +59,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
 
-    const affectedRows = await userService.deleteUserToDatabase(req.params.id);
+    const affectedRows = await User.deleteOne({_id: req.params.id});
   if (affectedRows == 0) {
     res.status(404).send("User not found ",req.params.id);
   }else {
