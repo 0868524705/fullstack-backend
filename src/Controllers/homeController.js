@@ -35,9 +35,8 @@ const addUser = async (req, res) => {
 
 // move to editUser.ejs and get data from a user == id
 const viewEditUser = async (req, res) => {
-    const  userid  = req.params.id;
-    let user = await userService.getUserById(userid);
-    res.render("editUser.ejs",{user : user});
+    const  userid  = await User.findById(req.params.id);
+    res.render("editUser.ejs",{user : userid});
 };
 
 // update user to Users table
@@ -45,7 +44,12 @@ const updateUser = async (req, res) => {
   let { email, name, city } = req.body;
   let id = req.params.id;
   try {
-    await userService.updateUserToDatabase(id, email, name, city);
+    await User.updateOne({_id: id}, {
+      email: email,
+      name: name,
+      city: city,
+    });
+    console.log("User updated successfully!");
     res.redirect("/"); // Redirect to the homepage after updating the user
   } catch (err) {
     console.log("Error updating user: ", err);
